@@ -1,0 +1,17 @@
+{
+  "name": "legend-booking",
+  "version": "1.0.0",
+  "description": "Закрытая PropTech-экосистема краткосрочного бронирования для жилых комплексов и апарт-отелей.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ]
+}
