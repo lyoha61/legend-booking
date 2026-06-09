@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router";
-import { SearchPage } from "../../routes/search/page";
+import { SearchPage } from "@/routes/search/page";
+import { GuestLayout } from "@/layouts/GuestLayout";
 
 export const router = createBrowserRouter([
 	{
@@ -8,6 +9,10 @@ export const router = createBrowserRouter([
 	},
 	{
 		path: "/search",
-		element: <SearchPage />
+		element: (
+			<GuestLayout>
+				<SearchPage />
+			</GuestLayout>
+		)
 	}
 ]);

@@ -1,1 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
+
+@theme {
+	--font-sans: "Geist", system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+}
+
+@layer base {
+	* {
+		box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+	}
+
+	body {
+		font-family: var(--font-sans);
+		@apply bg-[#F9FAFC]
+	}
+
+	h1 {
+		@apply text-2xl font-medium
+	}
+}
+
+@layer components {
+	.btn-nav-main {
+		@apply flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md transition-colors
+	}
+
+}

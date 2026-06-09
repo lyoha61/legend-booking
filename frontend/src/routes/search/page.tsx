@@ -1,7 +1,9 @@
+import { SearchBar } from "@/features/search/ui/SearchBar/SearchBar";
+
 export function SearchPage() {
 	return (
-		<div>
-			Здесь будет поиск апартаментов
+		<div className="p-4">
+			<SearchBar />
 		</div>
 	);
 }
