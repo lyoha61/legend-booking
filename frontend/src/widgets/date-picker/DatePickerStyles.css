@@ -1,0 +1,14 @@
+@reference "tailwindcss"
+@import "@daypicker/react/style.css";
+
+.rdp-day_button {
+	@apply w-full px-1.5 py-1
+}
+
+.rdp-weekday {
+	@apply text-gray-300 font-medium
+}
+
+.nav-month-button {
+	@apply border border-gray-200 text-gray-500 px-1 py-1 rounded-lg shadow-sm cursor-pointer
+}
