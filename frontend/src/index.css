@@ -4,6 +4,8 @@
 @theme {
 	--font-sans: "Geist", system-ui, sans-serif;
   --font-mono: ui-monospace, monospace;
+  --breakpoint-3xl: 1920px;
+  --color-mint-gray: #ECF0EE;
 }
 
 @layer base {
@@ -34,6 +36,10 @@
 @layer components {
 	.btn-nav-main {
 		@apply flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md transition-colors
+	}
+
+	.host-card-gradient {
+	  background: linear-gradient(135deg, #0F766E 0%, #14B8A6 100%);
 	}
 
 }

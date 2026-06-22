@@ -1,4 +1,5 @@
 import { Users, Maximize2, Eye } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 type ApartmentCardProps = {
 	id: string,
@@ -10,10 +11,12 @@ type ApartmentCardProps = {
 	imageUrl: string,
 	badges?: string[],
 	size?: number,
+	onDetailsClick: (id: string) => void,
 }
 
 
 export const ApartmentCard = ({
+	id,
 	name,
 	floor,
 	building,
@@ -21,7 +24,8 @@ export const ApartmentCard = ({
 	price,
 	imageUrl,
 	badges,
-	size
+	size,
+	onDetailsClick
 }: ApartmentCardProps) => {
 
 	return (
@@ -65,6 +69,7 @@ export const ApartmentCard = ({
 					</div>
 					<button
 						className="inline-flex items-center cursor-pointer gap-2 rounded-md text-sm font-medium px-4 py-2  justify-center bg-gray-900 hover:bg-gray-800 text-white"
+						onClick={() => onDetailsClick(id)}
 					>
 						Подробнее
 					</button>

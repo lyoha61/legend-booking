@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { ApartmentCard } from "./ApartmentCard";
 
 const APARTMENTS: Apartment[] = [
@@ -124,6 +125,8 @@ const APARTMENTS: Apartment[] = [
 
 
 export const ApartmentList = () => {
+	const navigate = useNavigate();
+
 
 	return (
 		<div className="flex flex-col gap-3">
@@ -131,7 +134,11 @@ export const ApartmentList = () => {
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 				{
 					APARTMENTS.map((apartment) => (
-						<ApartmentCard key={apartment.id} {...apartment} />
+						<ApartmentCard
+							key={apartment.id}
+							{...apartment}
+							onDetailsClick={(id) => navigate(`/apartments/${id}`)}
+						/>
 					))
 				}
 			</div>

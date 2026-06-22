@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router";
 import { SearchPage } from "@/routes/search/page";
 import { GuestLayout } from "@/layouts/GuestLayout";
+import { ApartmentPage } from "@/routes/apartments/page";
 
 export const router = createBrowserRouter([
 	{
@@ -12,6 +13,14 @@ export const router = createBrowserRouter([
 		element: (
 			<GuestLayout>
 				<SearchPage />
+			</GuestLayout>
+		)
+	},
+	{
+		path: "/apartments/:id",
+		element: (
+			<GuestLayout>
+				<ApartmentPage />
 			</GuestLayout>
 		)
 	}
