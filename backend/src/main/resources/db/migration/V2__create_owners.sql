@@ -1,0 +1,5 @@
+CREATE TABLE owners (
+	id UUID PRIMARY KEY DEFAULT uuidv7(),
+
+	user_id UUID NOT NULL UNIQUE REFERENCES users(id)
+)

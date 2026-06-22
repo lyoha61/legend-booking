@@ -1,0 +1,12 @@
+CREATE TABLE users (
+	id UUID PRIMARY KEY DEFAULT uuidv7(),
+
+	first_name VARCHAR(255),
+	last_name VARCHAR(255),
+	password VARCHAR(255) NOT NULL,
+	email VARCHAR(255) NOT NULL UNIQUE,
+	phone VARCHAR(255),
+
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+)
