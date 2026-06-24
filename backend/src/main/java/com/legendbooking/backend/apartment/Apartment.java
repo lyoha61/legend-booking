@@ -38,6 +38,9 @@ public class Apartment {
     @Column(name = "rooms_count")
     private Integer roomsCount;
 
+    @Column(name = "price_per_night")
+    private BigDecimal pricePerNight;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

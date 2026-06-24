@@ -12,6 +12,8 @@ CREATE TABLE apartments (
 	max_guests INT NOT NULL,
 	rooms_count INT NOT NULL,
 
+	price_per_night NUMERIC(10,2) NOT NULL,
+
 	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 )

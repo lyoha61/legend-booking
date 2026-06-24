@@ -7,11 +7,11 @@ type ApartmentCardProps = {
 	name: string,
 	floor: number,
 	building: string,
-	capacity: number,
-	price: number,
+	maxGuests: number,
+	pricePerNight: number,
 	imageUrl: string,
 	badges?: string[],
-	size?: number,
+	areaSqm?: number,
 	onDetailsClick: (id: string) => void,
 }
 
@@ -21,11 +21,11 @@ export const ApartmentCard = ({
 	name,
 	floor,
 	building,
-	capacity,
-	price,
+	maxGuests,
+	pricePerNight,
 	imageUrl,
 	badges,
-	size,
+	areaSqm,
 	onDetailsClick
 }: ApartmentCardProps) => {
 	const [imageError, setImageError] = useState(false);
@@ -60,20 +60,21 @@ export const ApartmentCard = ({
 				<div className="flex items-center gap-4 text-sm text-gray-600">
 					<div className="flex items-center gap-1.5">
 						<Users className="size-4" />
-						<span>{capacity} гостей</span>
+						<span>{maxGuests} гостей</span>
 					</div>
-					{size && (
+					{areaSqm && (
 						<div className="flex items-center gap-1.5">
 							<Maximize2 className="size-4" />
-							<span>{size} m²</span>
+							<span>{areaSqm} m²</span>
 						</div>
 					)}
 				</div>
 
 				<div className="flex items-center justify-between pt-2 border-t border-gray-100">
 					<div>
-						<div className="text-2xl tracking-tight text-gray-900">
-							₽{price}
+						<div className="flex gap-0.5 text-2xl tracking-tight text-gray-900">
+							<span>₽</span>
+							<span>{pricePerNight}</span>
 						</div>
 						<div className="text-xs text-gray-500">
 							за ночь

@@ -82,6 +82,7 @@ public class DataLoader implements CommandLineRunner {
       studio.setRoomsCount(1);
       studio.setCreatedAt(LocalDateTime.now());
       studio.setUpdatedAt(LocalDateTime.now());
+      studio.setPricePerNight(new BigDecimal("4500.00"));
 
       Apartment twoRoom = new Apartment();
       twoRoom.setOwner(owner1);
@@ -93,6 +94,7 @@ public class DataLoader implements CommandLineRunner {
       twoRoom.setRoomsCount(2);
       twoRoom.setCreatedAt(LocalDateTime.now());
       twoRoom.setUpdatedAt(LocalDateTime.now());
+      twoRoom.setPricePerNight(new BigDecimal("6200.00"));
 
       Apartment lux = new Apartment();
       lux.setOwner(owner2);
@@ -104,6 +106,7 @@ public class DataLoader implements CommandLineRunner {
       lux.setRoomsCount(3);
       lux.setCreatedAt(LocalDateTime.now());
       lux.setUpdatedAt(LocalDateTime.now());
+      lux.setPricePerNight(new BigDecimal("9500.00"));
 
       apartmentRepository.save(studio);
       apartmentRepository.save(twoRoom);
