@@ -1,13 +1,21 @@
 import { type DateRange } from "@daypicker/react";
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { DatePickerModalRange } from "@/widgets/date-picker/";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Calendar } from 'lucide-react';
 import { formatDate } from "@/utils/date";
 import { MoveRight } from 'lucide-react';
+import { useSearchStore } from "@/shared/store/useSearchStore";
 
 export function DateRangeField() {
-	const [range, setRange] = useState<DateRange | undefined>(undefined);
+	const { checkInDate, checkOutDate, setDates } = useSearchStore();
+	const [range, setRange] = useState<DateRange | undefined>(() => {
+		if (checkInDate && checkOutDate) {
+			return { from: new Date(checkInDate), to: new Date(checkOutDate) }
+		}
+		return undefined;
+	});
+
 	const hasDates = !!range?.from && !!range?.to;
 
 	return (
@@ -35,10 +43,16 @@ export function DateRangeField() {
 				<PopoverContent alignOffset={50} align="start" sideOffset={10}>
 					<DatePickerModalRange
 						selected={range}
-						onApply={(value) => {
-							if ('from' in value)
-								setRange(value)
-						}}
+					 	onApply={(value) => {
+							if ('from' in value) {
+								setRange(value);
+
+								setDates(
+					        value.from?.toISOString() || null,
+					        value.to?.toISOString() || null
+					      );
+              }
+            }}
 						onCancel={() => setRange(undefined)}
 					/>
 				</PopoverContent>

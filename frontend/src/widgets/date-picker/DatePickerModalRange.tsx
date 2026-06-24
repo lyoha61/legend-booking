@@ -4,6 +4,7 @@ import { ru } from "date-fns/locale";
 import "./DatePickerStyles.css";
 import { CustomCaptionLabel } from "./CustomCaptionLabel";
 import { CustomFooter } from "./CustomFooter";
+import { isSameDay, isBefore } from "date-fns";
 
 interface DatePickerModalRangeProps {
   selected?: DateRange;
@@ -22,6 +23,16 @@ export function DatePickerModalRange({
 
   const today = useMemo(() => new Date(), []);
 
+	const isValidDateRange = (range: DateRange | undefined): boolean => {
+	  if (!range?.from || !range?.to) return false;
+
+	  if (isBefore(range.to, range.from)) return false;
+
+	  if (isSameDay(range.from, range.to)) return false;
+
+	  return true;
+	};
+
   const handleSelect = useCallback((value: DateRange | undefined) => {
     setInternalValue(value);
   }, []);
@@ -32,9 +43,12 @@ export function DatePickerModalRange({
   }, [onCancel]);
 
   const handleApply = useCallback(() => {
-    if (internalValue?.from && internalValue?.to) {
-      onApply?.(internalValue);
-    }
+		if (internalValue?.from && internalValue?.to &&  isValidDateRange(internalValue)) {
+	    onApply?.(internalValue);
+		} else {
+			console.log("Invalid date range selected");
+			alert("Неверный выбор даты")
+		}
   }, [internalValue, onApply]);
 
   const isDisabled = !(internalValue?.from && internalValue?.to);
