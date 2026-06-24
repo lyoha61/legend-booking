@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { ApartmentCard } from "./ApartmentCard";
+import { useEffect, useState } from "react";
+import type { Apartment } from "../../model/types";
+import { getApartments } from "../../api/apartmentsApi";
 
 const APARTMENTS: Apartment[] = [
   {
@@ -127,13 +130,29 @@ const APARTMENTS: Apartment[] = [
 export const ApartmentList = () => {
 	const navigate = useNavigate();
 
+	const [apartments, setApartments] = useState<Apartment[]>([]);
+
+	useEffect(() => {
+		const loadApartments = async () => {
+			try {
+				const apartments = await getApartments();
+				setApartments(apartments);
+			} catch (err) {
+				console.error(err);
+			}
+		}
+
+		loadApartments();
+	}, []);
+
+	console.log(apartments)
 
 	return (
 		<div className="flex flex-col gap-3">
 			<h2 className="text-gray-900 ml-2">Доступные квартиры</h2>
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 				{
-					APARTMENTS.map((apartment) => (
+					apartments.map((apartment) => (
 						<ApartmentCard
 							key={apartment.id}
 							{...apartment}

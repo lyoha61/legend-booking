@@ -1,5 +1,6 @@
 import { Users, Maximize2, Eye } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { ImageOff } from 'lucide-react';
+import { useEffect, useState } from "react";
 
 type ApartmentCardProps = {
 	id: string,
@@ -27,15 +28,26 @@ export const ApartmentCard = ({
 	size,
 	onDetailsClick
 }: ApartmentCardProps) => {
+	const [imageError, setImageError] = useState(false);
+	const showFallback = !imageUrl || imageError;
 
 	return (
 		<div className="bg-white rounded-xl border gap-6 overflow-hidden hover:shadow-lg transition-shadow duration-200 border-gray-200">
 			<div className="h-48 overflow-hidden bg-gray-100">
-				<img
-					src={imageUrl}
-					alt={name}
-					className="w-full h-full object-cover"
-				/>
+				{showFallback ? (
+						<div className="flex flex-col gap-3 text-gray-500 justify-center items-center w-full h-full ">
+							<ImageOff />
+							<span>Нет изображения</span>
+						</div>
+					) : (
+						<img
+							src={imageUrl}
+							alt={name}
+							className="w-full h-full object-cover"
+							onError={() => setImageError(true)}
+						/>
+					)
+				}
 			</div>
 			<div className="p-5 space-y-4">
 				<div>
