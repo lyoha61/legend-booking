@@ -1,0 +1,114 @@
+package com.legendbooking.backend.config;
+
+import com.legendbooking.backend.apartment.*;
+import com.legendbooking.backend.user.*;
+import com.legendbooking.backend.owner.*;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+@Component
+@Profile("dev")
+public class DataLoader implements CommandLineRunner {
+
+    private final UserRepository userRepository;
+    private final OwnerRepository ownerRepository;
+    private final ApartmentRepository apartmentRepository;
+
+    public DataLoader(
+    	UserRepository userRepository,
+      OwnerRepository ownerRepository,
+      ApartmentRepository apartmentRepository
+    ) {
+        this.userRepository = userRepository;
+        this.ownerRepository = ownerRepository;
+        this.apartmentRepository = apartmentRepository;
+    }
+
+    @Override
+    public void run(String... args) {
+    	if (userRepository.count() > 0) return;
+
+      User ivan = new User();
+      ivan.setFirstName("Иван");
+      ivan.setLastName("Петров");
+      ivan.setEmail("ivan@example.com");
+      ivan.setPhone("+79990001111");
+      ivan.setPassword("password123");
+      ivan.setCreatedAt(LocalDateTime.now());
+      ivan.setUpdatedAt(LocalDateTime.now());
+
+      User anna = new User();
+      anna.setFirstName("Анна");
+      anna.setLastName("Сидорова");
+      anna.setEmail("anna@example.com");
+      anna.setPhone("+79990002222");
+      anna.setPassword("password123");
+      anna.setCreatedAt(LocalDateTime.now());
+      anna.setUpdatedAt(LocalDateTime.now());
+
+      User manager = new User();
+      manager.setFirstName("Олег");
+      manager.setLastName("Менеджер");
+      manager.setEmail("manager@legend.ru");
+      manager.setPhone("+79990003333");
+      manager.setPassword("password123");
+      manager.setCreatedAt(LocalDateTime.now());
+      manager.setUpdatedAt(LocalDateTime.now());
+
+      userRepository.save(ivan);
+      userRepository.save(anna);
+      userRepository.save(manager);
+
+      Owner owner1 = new Owner();
+      owner1.setUser(ivan);
+
+      Owner owner2 = new Owner();
+      owner2.setUser(anna);
+
+      ownerRepository.save(owner1);
+      ownerRepository.save(owner2);
+
+      Apartment studio = new Apartment();
+      studio.setOwner(owner1);
+      studio.setName("Студия с видом на парк");
+      studio.setNumber("45");
+      studio.setFloor(5);
+      studio.setAreaSqm(new BigDecimal("35.50"));
+      studio.setMaxGuests(2);
+      studio.setRoomsCount(1);
+      studio.setCreatedAt(LocalDateTime.now());
+      studio.setUpdatedAt(LocalDateTime.now());
+
+      Apartment twoRoom = new Apartment();
+      twoRoom.setOwner(owner1);
+      twoRoom.setName("Двухкомнатная у метро");
+      twoRoom.setNumber("12");
+      twoRoom.setFloor(3);
+      twoRoom.setAreaSqm(new BigDecimal("58.00"));
+      twoRoom.setMaxGuests(4);
+      twoRoom.setRoomsCount(2);
+      twoRoom.setCreatedAt(LocalDateTime.now());
+      twoRoom.setUpdatedAt(LocalDateTime.now());
+
+      Apartment lux = new Apartment();
+      lux.setOwner(owner2);
+      lux.setName("Люкс с террасой");
+      lux.setNumber("100");
+      lux.setFloor(12);
+      lux.setAreaSqm(new BigDecimal("95.00"));
+      lux.setMaxGuests(6);
+      lux.setRoomsCount(3);
+      lux.setCreatedAt(LocalDateTime.now());
+      lux.setUpdatedAt(LocalDateTime.now());
+
+      apartmentRepository.save(studio);
+      apartmentRepository.save(twoRoom);
+      apartmentRepository.save(lux);
+
+      System.out.println("✅ Мок-данные загружены!");
+    }
+}
