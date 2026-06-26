@@ -17,8 +17,11 @@ const PHOTOS = [
 	{ src: "https://images.unsplash.com/photo-1645217709128-3ca7191704a0?w=800", alt: "Балкон" },
 ]
 
-export const ApartmentsDetails = () => {
-	const { id } = useParams <{id: string}> ();
+type ApartmentsDetailsProps = {
+	id: string;
+}
+
+export const ApartmentsDetails = ({ id }: ApartmentsDetailsProps) => {
 	const [apartment, setApartment] = useState<Apartment>();
 
 	useEffect(() => {

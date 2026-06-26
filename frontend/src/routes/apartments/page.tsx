@@ -2,8 +2,9 @@ import { ApartmentsDetails } from "@/features/apartments/ui/ApartmentDetails/Apa
 import { useParams } from "react-router-dom"
 
 export const ApartmentPage = () => {
-	const { id } = useParams<{ id: string }>()
+	const { id } = useParams<{ id: string }>();
 
+	if (!id) return;
 
 	return (
 		<div>

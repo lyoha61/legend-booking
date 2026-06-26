@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router";
 import { SearchPage } from "@/routes/search/page";
 import { GuestLayout } from "@/layouts/GuestLayout";
 import { ApartmentPage } from "@/routes/apartments/page";
+import { RegisterPage } from "@/routes/register/page";
 
 export const router = createBrowserRouter([
 	{
@@ -22,6 +23,12 @@ export const router = createBrowserRouter([
 			<GuestLayout>
 				<ApartmentPage />
 			</GuestLayout>
+		)
+	},
+	{
+		path: "/register",
+		element: (
+			<RegisterPage />
 		)
 	}
 ]);
