@@ -2,7 +2,7 @@ package com.legendbooking.backend.owner;
 
 import java.util.UUID;
 
-import com.legendbooking.backend.user.User;
+import com.legendbooking.backend.user.UserEntity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,5 +20,5 @@ public class Owner {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity user;
 }

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Component
@@ -32,32 +33,32 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) {
     	if (userRepository.count() > 0) return;
 
-      User ivan = new User();
+      UserEntity ivan = new UserEntity();
       ivan.setFirstName("Иван");
       ivan.setLastName("Петров");
       ivan.setEmail("ivan@example.com");
       ivan.setPhone("+79990001111");
       ivan.setPassword("password123");
-      ivan.setCreatedAt(LocalDateTime.now());
-      ivan.setUpdatedAt(LocalDateTime.now());
+      ivan.setCreatedAt(Instant.now());
+      ivan.setUpdatedAt(Instant.now());
 
-      User anna = new User();
+      UserEntity anna = new UserEntity();
       anna.setFirstName("Анна");
       anna.setLastName("Сидорова");
       anna.setEmail("anna@example.com");
       anna.setPhone("+79990002222");
       anna.setPassword("password123");
-      anna.setCreatedAt(LocalDateTime.now());
-      anna.setUpdatedAt(LocalDateTime.now());
+      anna.setCreatedAt(Instant.now());
+      anna.setUpdatedAt(Instant.now());
 
-      User manager = new User();
+      UserEntity manager = new UserEntity();
       manager.setFirstName("Олег");
       manager.setLastName("Менеджер");
       manager.setEmail("manager@legend.ru");
       manager.setPhone("+79990003333");
       manager.setPassword("password123");
-      manager.setCreatedAt(LocalDateTime.now());
-      manager.setUpdatedAt(LocalDateTime.now());
+      manager.setCreatedAt(Instant.now());
+      manager.setUpdatedAt(Instant.now());
 
       userRepository.save(ivan);
       userRepository.save(anna);
