@@ -1,8 +1,12 @@
 package com.legendbooking.backend.auth;
 
+import java.util.Optional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.legendbooking.backend.auth.dto.ResponseLogin;
+import com.legendbooking.backend.exception.InvalidCredentialsException;
 import com.legendbooking.backend.user.UserEntity;
 import com.legendbooking.backend.user.UserRepository;
 
@@ -24,5 +28,21 @@ public class AuthService {
 		);
 
 		repository.save(user);
+	}
+
+	public ResponseLogin login(RegisterRequest request) {
+		UserEntity user = repository.findByEmail(request.email())
+			.orElseThrow(() -> new InvalidCredentialsException("Invalid email or password")
+			);
+
+		return new ResponseLogin(
+			user.getId(),
+			user.getEmail(),
+			user.getFirstName(),
+			user.getLastName(),
+			user.getPhone(),
+			user.getCreatedAt(),
+			user.getUpdatedAt()
+		);
 	}
 }
