@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.legendbooking.backend.auth.dto.AuthResponse;
-import com.legendbooking.backend.auth.dto.JwtTokens;
+import com.legendbooking.backend.auth.dto.RefreshTokenRequest;
+import com.legendbooking.backend.auth.dto.RefreshTokenResponse;
+import com.legendbooking.backend.security.dto.GeneratedToken;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,15 @@ public class AuthController {
 		@Valid @RequestBody RegisterRequest request
 	) {
 		AuthResponse tokens = service.login(request);
+
+		return ResponseEntity.ok(tokens);
+	}
+
+	@PostMapping("/refresh")
+	public ResponseEntity<AuthResponse> refreshToken (
+		@Valid @RequestBody RefreshTokenRequest request
+	) {
+		AuthResponse tokens = service.refreshToken(request.refreshToken());
 
 		return ResponseEntity.ok(tokens);
 	}

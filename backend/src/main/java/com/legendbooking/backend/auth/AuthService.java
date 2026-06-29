@@ -1,5 +1,8 @@
 package com.legendbooking.backend.auth;
 
+import java.time.Instant;
+import java.util.Optional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +70,35 @@ public class AuthService {
 		JwtTokens tokens = generateTokens(user);
 
 		saveRefreshToken(tokens.refreshToken(), user);
+
+		return new AuthResponse(
+			tokens.accessToken(),
+			tokens.refreshToken().token(),
+			tokens.refreshToken().expiresAt()
+		);
+	}
+
+	public AuthResponse refreshToken(String token) {
+		Optional<RefreshTokenEntity> tokenEntity = refreshTokenRepository.findByToken(token);
+
+		if (tokenEntity.isEmpty())
+			throw new InvalidCredentialsException("Invalid token refresh");
+
+		RefreshTokenEntity refreshTokenEntity = tokenEntity.get();
+
+		if (refreshTokenEntity.getExpiresAt().isBefore(Instant.now())){
+			refreshTokenRepository.delete(refreshTokenEntity);
+			throw new InvalidCredentialsException("Refresh token is expired");
+		}
+
+		UserEntity user = refreshTokenEntity.getUser();
+		refreshTokenRepository.delete(refreshTokenEntity);
+		JwtTokens tokens = generateTokens(user);
+
+		saveRefreshToken(
+        tokens.refreshToken(),
+        user
+    );
 
 		return new AuthResponse(
 			tokens.accessToken(),
