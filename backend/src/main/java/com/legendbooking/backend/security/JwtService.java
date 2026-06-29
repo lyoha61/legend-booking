@@ -2,6 +2,7 @@ package com.legendbooking.backend.security;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.crypto.SecretKey;
 
@@ -24,8 +25,10 @@ public class JwtService {
 		Instant expiration = Instant.now().plusMillis(type.getExpiration());
 
 		String token = Jwts.builder()
-			.subject(user.getEmail())
+			.subject(user.getId().toString())
+			.claim("email", user.getEmail())
 			.claim("type", type.name())
+			.claim("role", user.getRole())
 			.issuedAt(new Date())
 			.expiration(Date.from(expiration))
 			.signWith(SECRET_KEY)
@@ -34,13 +37,14 @@ public class JwtService {
 		return new GeneratedToken(token, expiration);
 	}
 
-	public String extractEmail(String token) {
-		return Jwts.parser()
+	public UUID extractUserId(String token) {
+		return UUID.fromString(Jwts.parser()
 			.verifyWith(SECRET_KEY)
 			.build()
 			.parseSignedClaims(token)
 			.getPayload()
-			.getSubject();
+			.getSubject()
+		);
 	}
 
 }

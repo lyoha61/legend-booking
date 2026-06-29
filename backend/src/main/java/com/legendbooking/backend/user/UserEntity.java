@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -35,6 +34,9 @@ public class UserEntity {
 
     @Column(nullable = false)
     private Instant updatedAt;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @PrePersist
     protected void onCreate() {

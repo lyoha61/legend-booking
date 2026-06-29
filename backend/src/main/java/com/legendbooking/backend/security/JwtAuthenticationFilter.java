@@ -2,6 +2,7 @@ package com.legendbooking.backend.security;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.UUID;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,9 +39,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 
 		String token = authHeader.substring(7);
-		String email = jwtService.extractEmail(token);
+		UUID userId = jwtService.extractUserId(token);
 
-		UserEntity user = userRepository.findByEmail(email).orElse(null);
+		UserEntity user = userRepository.findById(userId).orElse(null);
 
 		if (user != null) {
 			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
