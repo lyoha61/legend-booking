@@ -34,4 +34,13 @@ public class JwtService {
 		return new GeneratedToken(token, expiration);
 	}
 
+	public String extractEmail(String token) {
+		return Jwts.parser()
+			.verifyWith(SECRET_KEY)
+			.build()
+			.parseSignedClaims(token)
+			.getPayload()
+			.getSubject();
+	}
+
 }
