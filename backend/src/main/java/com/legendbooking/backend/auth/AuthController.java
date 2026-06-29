@@ -28,7 +28,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<AuthResponse> login (
+	public ResponseEntity<AuthResponse> login(
 		@Valid @RequestBody RegisterRequest request
 	) {
 		AuthResponse tokens = service.login(request);
@@ -37,11 +37,20 @@ public class AuthController {
 	}
 
 	@PostMapping("/refresh")
-	public ResponseEntity<AuthResponse> refreshToken (
+	public ResponseEntity<AuthResponse> refreshToken(
 		@Valid @RequestBody RefreshTokenRequest request
 	) {
 		AuthResponse tokens = service.refreshToken(request.refreshToken());
 
 		return ResponseEntity.ok(tokens);
+	}
+
+	@PostMapping("/logout")
+	public ResponseEntity<Void> logout(
+		@Valid @RequestBody RefreshTokenRequest request
+	) {
+		service.logout(request.refreshToken());
+
+		return ResponseEntity.noContent().build();
 	}
 }

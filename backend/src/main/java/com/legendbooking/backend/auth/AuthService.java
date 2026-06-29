@@ -106,4 +106,13 @@ public class AuthService {
 			tokens.refreshToken().expiresAt()
 		);
 	}
+
+	public void logout(String token) {
+		RefreshTokenEntity refreshToken = refreshTokenRepository.findByToken(token)
+			.orElseThrow(
+				() -> new InvalidCredentialsException("Invalid refresh token")
+			);
+
+		refreshTokenRepository.delete(refreshToken);
+	}
 }
