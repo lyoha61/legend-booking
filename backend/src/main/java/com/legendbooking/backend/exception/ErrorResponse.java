@@ -6,6 +6,7 @@ public record ErrorResponse(
 	String timestamp,
 	int status,
 	String error,
+	String code,
 	String message,
 	Map<String,String> errors,
 	String path

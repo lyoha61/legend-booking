@@ -7,6 +7,9 @@ import lombok.Setter;
 import java.time.Instant;
 import java.util.UUID;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 @Getter
 @Setter
 @Entity
@@ -35,8 +38,10 @@ public class UserEntity {
     @Column(nullable = false)
     private Instant updatedAt;
 
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    @Column(columnDefinition = "user_role")
+    private Role role = Role.CLIENT;
 
     @PrePersist
     protected void onCreate() {

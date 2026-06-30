@@ -1,8 +1,13 @@
 package com.legendbooking.backend.exception;
 
-public class InvalidCredentialsException extends RuntimeException {
+import org.springframework.http.HttpStatus;
 
+public class InvalidCredentialsException extends BusinessException {
 	public InvalidCredentialsException(String message) {
-		super(message);
+		super(
+			"INVALID_CREDENTIALS",
+			message,
+			HttpStatus.UNAUTHORIZED
+		);
 	}
 }

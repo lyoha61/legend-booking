@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.legendbooking.backend.auth.dto.AuthResponse;
 import com.legendbooking.backend.auth.dto.JwtTokens;
+import com.legendbooking.backend.exception.EmailAlreadyExistsException;
 import com.legendbooking.backend.exception.InvalidCredentialsException;
 import com.legendbooking.backend.security.JwtService;
 import com.legendbooking.backend.user.UserEntity;
@@ -23,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthService {
 
-	private final UserRepository repository;
+	private final UserRepository userRepository;
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtService jwtService;
@@ -45,7 +46,7 @@ public class AuthService {
 		refreshTokenRepository.save(refreshTokenEntity);
 	}
 
-	public void register(RegisterRequest request) {
+	public AuthResponse register(RegisterRequest request) {
 		UserEntity user = new UserEntity();
 
 		user.setEmail(request.email());
@@ -53,11 +54,24 @@ public class AuthService {
 			passwordEncoder.encode(request.password())
 		);
 
-		repository.save(user);
+		if (userRepository.existsByEmail(user.getEmail()))
+			throw new EmailAlreadyExistsException();
+
+		UserEntity savedUser =  userRepository.save(user);
+
+		JwtTokens tokens = generateTokens(savedUser);
+
+		saveRefreshToken(tokens.refreshToken(), user);
+
+		return new AuthResponse(
+			tokens.accessToken(),
+			tokens.refreshToken().token(),
+			tokens.refreshToken().expiresAt()
+		);
 	}
 
 	public AuthResponse login(RegisterRequest request) {
-		UserEntity user = repository.findByEmail(request.email())
+		UserEntity user = userRepository.findByEmail(request.email())
 			.orElseThrow(() -> new InvalidCredentialsException("Invalid email or password")
 		);
 

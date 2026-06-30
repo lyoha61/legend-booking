@@ -14,6 +14,9 @@ import { GoogleIcon } from "@/shared/icons/GoogleIcon";
 import { SubmitButton } from "@/shared/ui/SubmitButton";
 import { validateAgreement, validateEmail, validatePassword } from "@/shared/utils/validation";
 import { CheckBox } from "@/shared/ui/CheckBox";
+import { register } from "./api/authApi";
+import type { ApiError } from "@/shared/api/types";
+import { ErrorCode, errorMessages } from "@/shared/messages/errors";
 
 
 export const Register = () => {
@@ -36,11 +39,12 @@ export const Register = () => {
 	const [showPass, setShowPass] = useState(false);
 	const [agreed, setAgreed] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [serverError, setServerError] = useState("");
 
 	const inputClass =
 		"w-full pl-10 pr-10 py-3 bg-transparent text-sm text-slate-800 placeholder:text-slate-400 outline-none rounded-xl";
 
-	const handleSubmit = (e: React.SubmitEvent) => {
+	const handleSubmit = async (e: React.SubmitEvent) => {
 		e.preventDefault();
 		const emailError = validateEmail(email.value);
 		const passwordError = validatePassword(password.value);
@@ -50,9 +54,24 @@ export const Register = () => {
 	  if (passwordError) setPasswordError(passwordError);
 		if (agreedError) setAgreed(false);
 
-		if (!emailError && !passwordError && !agreedError) {
-			alert("Отправка регистрации на бэк");
-	  }
+		if (emailError || passwordError || agreedError) {
+			return;
+		}
+
+		try {
+			await register({
+				email: email.value,
+				password: password.value
+			});
+		} catch (err) {
+			const error = err as ApiError;
+			if (error.code === ErrorCode.EMAIL_ALREADY_EXISTS) {
+				setEmailError(errorMessages[error.code]);
+				return;
+			}
+
+			setServerError(errorMessages[error.code]);
+		}
 	}
 
 	return (
@@ -114,6 +133,13 @@ export const Register = () => {
                 политикой конфиденциальности
               </a>
 						</CheckBox>
+
+						{serverError && (
+							<div className="flex justify-center items-center gap-2 text-red-500 text-sm">
+								<AlertCircle className="w-4 h-4" />
+								<span className="text-base">{serverError}</span>
+							</div>
+						)}
 
 						<SubmitButton
 							text="Зарегистрироваться"
