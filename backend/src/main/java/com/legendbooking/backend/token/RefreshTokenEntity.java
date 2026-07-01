@@ -31,8 +31,12 @@ public class RefreshTokenEntity {
 	@Column(nullable = false, name = "created_at")
 	private Instant createdAt;
 
+	@Column(name = "revoked_at")
+	private Instant revokedAt;
+
 	@PrePersist
 	protected void onCreate() {
 		createdAt = Instant.now();
 	}
+
 }

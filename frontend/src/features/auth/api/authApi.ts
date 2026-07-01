@@ -1,4 +1,5 @@
 import { apiClient } from "@/shared/api/client"
+import { useAuthStore } from "../model/authStore";
 
 interface authRequest {
 	email: string,
@@ -15,7 +16,20 @@ export const login = async (data: authRequest) => {
 	return res
 }
 
+let refreshPromise: Promise<void> | null = null;
+
 export const refresh = async () => {
-	const res = await apiClient.post("/auth/refresh");
-	return res
+	if (!refreshPromise) {
+		refreshPromise = apiClient.post("/auth/refresh")
+			.then((data ) => {
+				useAuthStore
+					.getState()
+					.setAccessToken(data.accessToken);
+			})
+			.finally(() => {
+				refreshPromise = null;
+			});
+	}
+
+	return refreshPromise;
 }

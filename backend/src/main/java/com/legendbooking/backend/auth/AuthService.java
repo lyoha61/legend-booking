@@ -12,15 +12,20 @@ import com.legendbooking.backend.exception.InvalidCredentialsException;
 import com.legendbooking.backend.security.JwtService;
 import com.legendbooking.backend.user.UserEntity;
 import com.legendbooking.backend.user.UserRepository;
+
+import jakarta.transaction.Transactional;
+
 import com.legendbooking.backend.security.TokenType;
 import com.legendbooking.backend.security.dto.GeneratedToken;
 import com.legendbooking.backend.token.RefreshTokenEntity;
 import com.legendbooking.backend.token.RefreshTokenRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
 
 	private final UserRepository userRepository;
@@ -83,29 +88,45 @@ public class AuthService {
 		return tokens;
 	}
 
+	@Transactional
 	public JwtTokens refreshToken(String token) {
-		Optional<RefreshTokenEntity> tokenEntity = refreshTokenRepository.findByToken(token);
+		try {
+			RefreshTokenEntity refreshTokenEntity =
+				refreshTokenRepository.findByToken(token)
+					.orElseThrow(
+						() -> new InvalidCredentialsException("Invalid token refresh")
+					);
 
-		if (tokenEntity.isEmpty())
-			throw new InvalidCredentialsException("Invalid token refresh");
+			if (refreshTokenEntity.getRevokedAt() != null) {
+				throw new InvalidCredentialsException("Token already refreshed");
+			}
 
-		RefreshTokenEntity refreshTokenEntity = tokenEntity.get();
+			if (refreshTokenEntity.getExpiresAt().isBefore(Instant.now())){
+				refreshTokenEntity.setRevokedAt(Instant.now());
+				refreshTokenRepository.save(refreshTokenEntity);
 
-		if (refreshTokenEntity.getExpiresAt().isBefore(Instant.now())){
-			refreshTokenRepository.delete(refreshTokenEntity);
-			throw new InvalidCredentialsException("Refresh token is expired");
+				throw new InvalidCredentialsException("Refresh token is expired");
+			}
+
+			UserEntity user = refreshTokenEntity.getUser();
+
+			refreshTokenEntity.setRevokedAt(Instant.now());
+			refreshTokenRepository.save(refreshTokenEntity);
+
+			JwtTokens tokens = generateTokens(user);
+
+			saveRefreshToken(
+	      tokens.refreshToken(),
+	      user
+	    );
+
+	    return tokens;
+		} catch (Exception ex) {
+			log.error("Error", ex);
+			throw ex;
+			// throw new RuntimeException("Error " + ex.getMessage());
 		}
 
-		UserEntity user = refreshTokenEntity.getUser();
-		refreshTokenRepository.delete(refreshTokenEntity);
-		JwtTokens tokens = generateTokens(user);
-
-		saveRefreshToken(
-      tokens.refreshToken(),
-      user
-    );
-
-    return tokens;
 	}
 
 	public void logout(String token) {

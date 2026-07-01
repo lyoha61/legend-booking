@@ -31,6 +31,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         Instant.now().toString(),
         401,
         "Unauthorized",
+        "UNAUTHORIZED",
         "Authentication required",
         null,
         request.getRequestURI()
