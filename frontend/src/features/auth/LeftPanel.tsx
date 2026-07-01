@@ -5,7 +5,7 @@ import {
   Building2,
 } from "lucide-react";
 
-export const LeftPanel = ({ className }: {className: string}) => {
+export const LeftPanel = ({ className }: {className?: string}) => {
 
 	const benefits = [
   	{ icon: Search, text: "Найдите идеальную квартиру" },
