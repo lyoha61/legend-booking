@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.legendbooking.backend.auth.dto.AuthResponse;
 import com.legendbooking.backend.auth.dto.JwtTokens;
 import com.legendbooking.backend.exception.EmailAlreadyExistsException;
 import com.legendbooking.backend.exception.InvalidCredentialsException;
@@ -46,7 +45,7 @@ public class AuthService {
 		refreshTokenRepository.save(refreshTokenEntity);
 	}
 
-	public AuthResponse register(RegisterRequest request) {
+	public JwtTokens register(RegisterRequest request) {
 		UserEntity user = new UserEntity();
 
 		user.setEmail(request.email());
@@ -63,14 +62,10 @@ public class AuthService {
 
 		saveRefreshToken(tokens.refreshToken(), user);
 
-		return new AuthResponse(
-			tokens.accessToken(),
-			tokens.refreshToken().token(),
-			tokens.refreshToken().expiresAt()
-		);
+		return tokens;
 	}
 
-	public AuthResponse login(RegisterRequest request) {
+	public JwtTokens login(RegisterRequest request) {
 		UserEntity user = userRepository.findByEmail(request.email())
 			.orElseThrow(() -> new InvalidCredentialsException("Invalid email or password")
 		);
@@ -85,14 +80,10 @@ public class AuthService {
 
 		saveRefreshToken(tokens.refreshToken(), user);
 
-		return new AuthResponse(
-			tokens.accessToken(),
-			tokens.refreshToken().token(),
-			tokens.refreshToken().expiresAt()
-		);
+		return tokens;
 	}
 
-	public AuthResponse refreshToken(String token) {
+	public JwtTokens refreshToken(String token) {
 		Optional<RefreshTokenEntity> tokenEntity = refreshTokenRepository.findByToken(token);
 
 		if (tokenEntity.isEmpty())
@@ -110,15 +101,11 @@ public class AuthService {
 		JwtTokens tokens = generateTokens(user);
 
 		saveRefreshToken(
-        tokens.refreshToken(),
-        user
+      tokens.refreshToken(),
+      user
     );
 
-		return new AuthResponse(
-			tokens.accessToken(),
-			tokens.refreshToken().token(),
-			tokens.refreshToken().expiresAt()
-		);
+    return tokens;
 	}
 
 	public void logout(String token) {
