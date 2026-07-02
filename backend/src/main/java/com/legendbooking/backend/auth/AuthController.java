@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.legendbooking.backend.auth.dto.AuthResponse;
 import com.legendbooking.backend.auth.dto.JwtTokens;
+import com.legendbooking.backend.exception.InvalidCredentialsException;
 import com.legendbooking.backend.security.dto.GeneratedToken;
 
 import jakarta.validation.Valid;
@@ -72,8 +73,12 @@ public class AuthController {
 
 	@PostMapping("/refresh")
 	public ResponseEntity<AuthResponse> refreshToken(
-		@CookieValue("refresh_token") String refreshToken
+		@CookieValue(value = "refresh_token", required = false) String refreshToken
 	) {
+		if (refreshToken == null) {
+			throw new InvalidCredentialsException("Refresh token is missing");
+		}
+
 		JwtTokens tokens = service.refreshToken(refreshToken);
 
 		ResponseCookie cookie = createRefreshCookie(tokens.refreshToken());

@@ -11,7 +11,6 @@ export const useAuthInit = () => {
 		const init = async () => {
 			try {
 				await refresh();
-
 			} catch (err) {
 				console.error(err);
 				useAuthStore.getState().logout();

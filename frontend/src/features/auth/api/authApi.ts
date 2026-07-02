@@ -18,10 +18,12 @@ export const login = async (data: authRequest) => {
 
 let refreshPromise: Promise<void> | null = null;
 
-export const refresh = async () => {
+export const refresh = async (isRetryAllowed = true) => {
+	console.log("Refreshing token");
+	console.log("refreshPromise: ", refreshPromise);
 	if (!refreshPromise) {
-		refreshPromise = apiClient.post("/auth/refresh")
-			.then((data ) => {
+		refreshPromise = apiClient.post("/auth/refresh", {}, isRetryAllowed)
+			.then((data) => {
 				useAuthStore
 					.getState()
 					.setAccessToken(data.accessToken);

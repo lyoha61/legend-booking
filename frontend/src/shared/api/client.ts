@@ -1,10 +1,11 @@
 import { useAuthStore } from "@/features/auth/model/authStore";
 import type { ApiError } from "./types";
+import { refresh } from "@/features/auth/api/authApi";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 class ApiClient {
-	private async request(path: string, options: RequestInit = {}) {
+	private async request(path: string, options: RequestInit = {}, isRetryAllowed = true): Promise<unknown> {
 		const token = useAuthStore.getState().accessToken;
 
 		const headers = new Headers({
@@ -22,6 +23,12 @@ class ApiClient {
 			credentials: "include"
 		});
 
+		if (res.status === 401 && isRetryAllowed) {
+			await refresh(false);
+
+			return this.request(path, options, false);
+		}
+
 		if (!res.ok) {
 			const error: ApiError = await res.json();
 			throw error;
@@ -35,11 +42,11 @@ class ApiClient {
 		});
 	}
 
-	post(path: string, body?: unknown) {
+	post(path: string, body?: unknown, isRetryAllowed = true) {
 		return this.request(path, {
 			method: "POST",
 			body: JSON.stringify(body),
-		});
+		}, isRetryAllowed);
 	}
 
 	delete(path: string) {
