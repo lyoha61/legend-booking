@@ -1,5 +1,5 @@
+import { Header } from "@/widgets/header/Header";
 import type { ReactNode } from "react";
-import { GuestHeader } from "../widgets/header/GuestHeader";
 
 type Props = {
 	children: ReactNode;
@@ -8,7 +8,7 @@ type Props = {
 export function GuestLayout({ children }: Props) {
 	return (
 		<>
-			<GuestHeader />
+			<Header />
 			<div>{children}</div>
 		</>
 	)

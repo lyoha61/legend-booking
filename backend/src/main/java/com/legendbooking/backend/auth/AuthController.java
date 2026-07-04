@@ -8,8 +8,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +19,7 @@ import com.legendbooking.backend.auth.dto.AuthResponse;
 import com.legendbooking.backend.auth.dto.JwtTokens;
 import com.legendbooking.backend.exception.InvalidCredentialsException;
 import com.legendbooking.backend.security.dto.GeneratedToken;
+import com.legendbooking.backend.user.dto.UserDto;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -108,5 +111,13 @@ public class AuthController {
 		return ResponseEntity.noContent()
 			.header(HttpHeaders.SET_COOKIE, cookie.toString())
 			.build();
+	}
+
+	@GetMapping("/me")
+	public ResponseEntity<UserDto> me(
+		@RequestHeader("Authorization") String header
+	) {
+		UserDto user = service.me(header);
+		return ResponseEntity.ok().body(user);
 	}
 }

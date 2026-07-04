@@ -24,7 +24,7 @@ export const PopoverSelect = ({
 
 	return (
 		<Popover>
-			<PopoverTrigger className="w-full">
+			<PopoverTrigger className="w-full" asChild>
 				<button className="flex w-full justify-start gap-2 text-sm text-gray-500 items-center">
 					{icon ?? " "}
 					<span className="text-gray-900">{label}</span>

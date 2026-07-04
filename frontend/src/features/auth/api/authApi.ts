@@ -35,3 +35,13 @@ export const refresh = async (isRetryAllowed = true) => {
 
 	return refreshPromise;
 }
+
+export const me = async () => {
+	const res = await apiClient.get("/auth/me");
+	return res;
+}
+
+export const logout = async () => {
+	const res = await apiClient.post("/auth/logout");
+	return res;
+}

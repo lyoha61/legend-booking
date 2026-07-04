@@ -14,11 +14,9 @@ export const router = createBrowserRouter([
 	{
 		path: "/search",
 		element: (
-			<ProtectedRoute>
 				<GuestLayout>
 					<SearchPage />
 				</GuestLayout>
-			</ProtectedRoute>
 		)
 	},
 	{

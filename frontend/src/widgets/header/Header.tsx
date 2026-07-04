@@ -2,7 +2,7 @@ import { MainNav } from "@/features/nav/MainNav";
 import { Building2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export function GuestHeader() {
+export function Header() {
 	return (
 		<div className="bg-white border-b border-gray-200 top-0 z-50 px-6 py-4">
 			<div className="flex items-center gap-3"	>

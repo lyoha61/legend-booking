@@ -12,6 +12,8 @@ import com.legendbooking.backend.exception.InvalidCredentialsException;
 import com.legendbooking.backend.security.JwtService;
 import com.legendbooking.backend.user.UserEntity;
 import com.legendbooking.backend.user.UserRepository;
+import com.legendbooking.backend.user.dto.UserDto;
+import com.legendbooking.backend.user.mapper.UserMapper;
 
 import jakarta.transaction.Transactional;
 
@@ -32,6 +34,7 @@ public class AuthService {
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtService jwtService;
+	private final UserMapper userMapper;
 
 	private JwtTokens generateTokens(UserEntity user) {
 		String accessToken = jwtService.generateToken(user, TokenType.ACCESS).token();
@@ -136,5 +139,14 @@ public class AuthService {
 			);
 
 		refreshTokenRepository.delete(refreshToken);
+	}
+
+	public UserDto me(String header) {
+		String token = jwtService.extractToken(header);
+		String email = jwtService.extractClaim(token, "email");
+
+		UserEntity user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+
+		return userMapper.toDto(user);
 	}
 }

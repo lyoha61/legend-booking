@@ -33,6 +33,10 @@ class ApiClient {
 			const error: ApiError = await res.json();
 			throw error;
 		}
+
+		if (res.status === 204)
+			return null;
+
 		return res.json();
 	}
 

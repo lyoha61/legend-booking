@@ -37,6 +37,23 @@ public class JwtService {
 		return new GeneratedToken(token, expiration);
 	}
 
+	public String extractToken(String header) {
+		if (header == null) return null;
+
+		return header.startsWith("Bearer ")
+			? header.substring(7)
+			: header;
+	}
+
+	public String extractClaim(String token, String claim) {
+		return Jwts.parser()
+			.verifyWith(SECRET_KEY)
+			.build()
+			.parseSignedClaims(token)
+			.getPayload()
+			.get(claim, String.class);
+	}
+
 	public UUID extractUserId(String token) {
 		return UUID.fromString(Jwts.parser()
 			.verifyWith(SECRET_KEY)
