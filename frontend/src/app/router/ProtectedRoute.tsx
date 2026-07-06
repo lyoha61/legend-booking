@@ -5,6 +5,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 	const accessToken = useAuthStore(
 		state => state.accessToken
 	);
+	const user = useAuthStore(state => state.user);
 
 	const isLoading = useAuthStore(
 		state => state.isLoading

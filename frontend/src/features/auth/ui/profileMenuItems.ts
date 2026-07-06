@@ -1,8 +1,8 @@
-import { LogOut, Calendar, Heart } from 'lucide-react';
+import { LogOut, Calendar, Heart, LayoutDashboard } from 'lucide-react';
 
-export const getProfileMenuItems = (user, logout) => {
+export const getProfileMenuItems = (user, logout, navigate) => {
 	if (!user) return [];
-
+	console.log(user);
   const base = [
 		{
 			icon: Calendar,
@@ -23,8 +23,9 @@ export const getProfileMenuItems = (user, logout) => {
 
   if (user.role === "OWNER") {
     base.splice(1, 0, {
-      label: "Мои объекты",
-      onClick: () => console.log("properties"),
+			label: "Панель управления",
+      icon: LayoutDashboard,
+      onClick: () => navigate("/owner"),
     });
   }
 

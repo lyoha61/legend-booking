@@ -5,6 +5,9 @@ import { ApartmentPage } from "@/routes/apartments/page";
 import { RegisterPage } from "@/routes/register/page";
 import { LoginPage } from "@/routes/login/page";
 import { ProtectedRoute } from "@/app/router/ProtectedRoute";
+import { DashboardPage } from "@/routes/owner";
+import { OwnerLayout } from "@/layouts/OwnerLayout";
+import { ObjectsPage } from "@/routes/owner/objects/page";
 
 export const router = createBrowserRouter([
 	{
@@ -40,5 +43,13 @@ export const router = createBrowserRouter([
 		element: (
 			<LoginPage />
 		)
+	},
+	{
+		path: "/owner",
+		element: <OwnerLayout />,
+		children: [
+			{ index: true, path: "dashboard", element: <DashboardPage /> },
+			{ path: "objects", element: <ObjectsPage /> }
+		]
 	}
 ]);

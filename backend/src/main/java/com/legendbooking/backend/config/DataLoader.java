@@ -2,9 +2,13 @@ package com.legendbooking.backend.config;
 
 import com.legendbooking.backend.apartment.*;
 import com.legendbooking.backend.user.*;
+
+import lombok.RequiredArgsConstructor;
+
 import com.legendbooking.backend.owner.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -13,21 +17,13 @@ import java.time.LocalDateTime;
 
 @Component
 @Profile("dev")
+@RequiredArgsConstructor
 public class DataLoader implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final OwnerRepository ownerRepository;
     private final ApartmentRepository apartmentRepository;
-
-    public DataLoader(
-    	UserRepository userRepository,
-      OwnerRepository ownerRepository,
-      ApartmentRepository apartmentRepository
-    ) {
-        this.userRepository = userRepository;
-        this.ownerRepository = ownerRepository;
-        this.apartmentRepository = apartmentRepository;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
@@ -38,7 +34,8 @@ public class DataLoader implements CommandLineRunner {
       ivan.setLastName("Петров");
       ivan.setEmail("ivan@example.com");
       ivan.setPhone("+79990001111");
-      ivan.setPassword("password123");
+      ivan.setPassword(passwordEncoder.encode("12345678"));
+      ivan.setRole(Role.OWNER);
       ivan.setCreatedAt(Instant.now());
       ivan.setUpdatedAt(Instant.now());
 
@@ -47,7 +44,8 @@ public class DataLoader implements CommandLineRunner {
       anna.setLastName("Сидорова");
       anna.setEmail("anna@example.com");
       anna.setPhone("+79990002222");
-      anna.setPassword("password123");
+      anna.setPassword(passwordEncoder.encode("12345678"));
+      anna.setRole(Role.OWNER);
       anna.setCreatedAt(Instant.now());
       anna.setUpdatedAt(Instant.now());
 

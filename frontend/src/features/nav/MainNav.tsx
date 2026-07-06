@@ -18,8 +18,7 @@ export function MainNav() {
 	const navigate = useNavigate();
 	const isAuth = !!user;
 	const { signOut } = useAuth();
-	const items = getProfileMenuItems(user, signOut);
-
+	const items = getProfileMenuItems(user, signOut, navigate);
 	return (
 		<div className="flex flex-1 items-center justify-between">
 			<div className="flex items-center gap-1">
@@ -29,13 +28,12 @@ export function MainNav() {
 					<span>Поддержка</span>
 				</button>
 
-
 			</div>
 
 			{isAuth ? (
 				<ProfileMenuPopover
 					icon=<User className="size-4" />
-					label="Профиль"
+					label={user.firstName + " " + user.lastName}
 					options={items}
 				/>
 			) : (

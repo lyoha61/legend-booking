@@ -54,4 +54,11 @@
 	  background: linear-gradient(135deg, #0F766E 0%, #14B8A6 100%);
 	}
 
+	.tab {
+		@apply flex items-center gap-2 p-3 cursor-pointer rounded-2xl transition-colors duration-200 ease-in-out;
+	}
+
+	.tab-active {
+		@apply bg-[#D8FCF3] text-[#2DAA86] shadow-sm;
+	}
 }
