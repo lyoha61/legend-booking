@@ -1,4 +1,6 @@
 import { OwnerApartmentCard, type ApartmentCardProps } from "@/features/owner-objects/ui/OwnerApartmentCard";
+import { useEffect, useState } from "react";
+import { getOwnerApartments } from "../api/ownerObjectsApi";
 
  const mockApartments: ApartmentCardProps[] = [
   {
@@ -54,9 +56,20 @@ import { OwnerApartmentCard, type ApartmentCardProps } from "@/features/owner-ob
 ];
 
 export const OwnerApartmentsList = () => {
+	const [apartments, setApartments] = useState([]);
+
+	useEffect(() => {
+		const fetchApartments = async () => {
+			const apartmentsData = await getOwnerApartments();
+			setApartments(apartmentsData);
+		}
+
+		fetchApartments();
+	}, [])
+
 	return (
 		<div className="grid md:grid-cols-3 gap-3">
-			{mockApartments.map(apartment => (
+			{apartments.map(apartment => (
 				<OwnerApartmentCard
 					img={apartment.img}
 					name={apartment.name}

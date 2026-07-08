@@ -1,14 +1,19 @@
 package com.legendbooking.backend.apartment;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.legendbooking.backend.user.UserEntity;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +26,14 @@ public class ApartmentController {
 	@GetMapping
 	public List<Apartment> getAll() {
 		return apartmentService.getAll();
+	}
+
+	@GetMapping("/owner")
+	public ResponseEntity<?> getOwnerApartments(
+		@AuthenticationPrincipal UserEntity user
+	) {
+		List<Apartment> apartments = apartmentService.getOwnerApartments(user.getId());
+		return ResponseEntity.ok().body(apartments);
 	}
 
 	@GetMapping("/{id}")
