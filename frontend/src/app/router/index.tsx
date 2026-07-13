@@ -7,7 +7,8 @@ import { LoginPage } from "@/routes/login/page";
 import { ProtectedRoute } from "@/app/router/ProtectedRoute";
 import { DashboardPage } from "@/routes/owner";
 import { OwnerLayout } from "@/layouts/OwnerLayout";
-import { ObjectsPage } from "@/routes/owner/objects/page";
+import { ApartmentsPage } from "@/routes/owner/objects/page";
+import { CreateApartmentPage } from "@/routes/owner/objects/create/page";
 
 export const router = createBrowserRouter([
 	{
@@ -49,7 +50,13 @@ export const router = createBrowserRouter([
 		element: <OwnerLayout />,
 		children: [
 			{ index: true, path: "dashboard", element: <DashboardPage /> },
-			{ path: "objects", element: <ObjectsPage /> }
+			{
+				path: "apartments",
+				children: [
+					{ index: true, element: <ApartmentsPage /> },
+					{ path: "create", element: <CreateApartmentPage /> }
+				]
+			}
 		]
 	}
 ]);

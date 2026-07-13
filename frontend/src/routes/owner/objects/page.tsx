@@ -1,10 +1,10 @@
-import { ObjectsTitle } from "@/features/owner-objects/ui/ObjectsTitle"
+import { ApartmentsTitle } from "@/features/owner-objects/ui/ApartmentsTitle"
 import { OwnerApartmentsList } from "@/features/owner-objects/ui/OwnerApartmentsList"
 
-export const ObjectsPage = () => {
+export const ApartmentsPage = () => {
 	return (
 		<div className="flex flex-col gap-5 pt-4">
-			<ObjectsTitle />
+			<ApartmentsTitle />
 			<OwnerApartmentsList />
 		</div>
 	)

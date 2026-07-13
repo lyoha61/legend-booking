@@ -9,7 +9,7 @@ export const OwnerSidebar = () => {
 
 	const menuItems = [
 		{ id: "dashboard", label: "Dashboard", icon: LayoutDashboard, path: "dashboard"},
-		{ id: "apartments", label: "Мои объекты", icon: Building, path: "objects" },
+		{ id: "apartments", label: "Мои объекты", icon: Building, path: "apartments" },
 	]
 
 	const handleClick = (item) => {

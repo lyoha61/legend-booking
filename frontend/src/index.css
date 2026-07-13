@@ -61,4 +61,20 @@
 	.tab-active {
 		@apply bg-[#D8FCF3] text-[#2DAA86] shadow-sm;
 	}
+
+	.apartment-form-card {
+		@apply bg-white border-[#E8E9F0] rounded-xl border;
+	}
+}
+
+@layer utilities {
+	.no-spinner::-webkit-inner-spin-button,
+	.no-spinner::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	.no-spinner {
+		-moz-appearance: textfield;
+	}
 }

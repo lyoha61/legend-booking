@@ -6,9 +6,10 @@ import type { Field } from "./hooks/useField";
 
 type InputWrapperProps = {
 	label: string,
-	icon: React.ElementType,
+	icon?: React.ElementType,
 	field: Field
 	children: React.ReactNode,
+	suffix?: string
 }
 
 export const InputWrapper = ({
@@ -16,6 +17,7 @@ export const InputWrapper = ({
 	icon: Icon,
 	field,
 	children,
+	suffix
 }: InputWrapperProps) => {
 
 	const borderColor = {
@@ -40,16 +42,25 @@ export const InputWrapper = ({
 			<div
 				className={`relative flex items-center rounded-xl border ${borderColor[field.state]}`}
 			>
-				<Icon
-					className={`absolute left-3.5 w-4 h-4 shrink-0 transition-colors ${iconColor[field.state]}`}
-				/>
+				{Icon &&
+					<Icon
+						className={`absolute left-3.5 w-4 h-4 shrink-0 transition-colors ${iconColor[field.state]}`}
+					/>
+				}
 				{children}
-				{field.state == "valid" && (
-					<CheckCircle2 className="absolute right-3.5 w-4 h-4 text-emerald-500 shrink-0" />
-				)}
-				{field.state == "error" && (
-					<AlertCircle className="absolute right-3.5 w-4 h-4 text-red-400 shrink-0"/>
-				)}
+				<div className="absolute right-3.5 flex items-center gap-2">
+					{suffix && (
+						<span className="text-slate-400">{suffix}</span>
+					)}
+
+					{field.state == "valid" && (
+						<CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+					)}
+
+					{field.state == "error" && (
+						<AlertCircle className="w-4 h-4 text-red-400 shrink-0"/>
+					)}
+				</div>
 			</div>
 		</div>
 	)

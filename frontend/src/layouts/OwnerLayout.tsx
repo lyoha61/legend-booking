@@ -5,7 +5,7 @@ export const OwnerLayout = () => {
 	return (
 		<div className="h-full p-2 grid grid-cols-[1fr_6fr]">
 			<OwnerSidebar />
-			<div className="px-6">
+			<div className="px-6 py-5">
 				<Outlet />
 			</div>
 		</div>
