@@ -10,10 +10,23 @@ export const ApartmentForm = () => {
 	const [form, setForm] = useState({
 		name: "",
 		number: "",
-		floor: "",
-		area: "",
-		price: ""
+		floor: "1",
+		area: "0",
+		roomsCount: 1,
+		maxGuests: 2,
+		price: "0",
 	});
+
+	const updateField = <K extends keyof typeof form>(
+		field: K,
+		value: typeof form[K]
+	) => {
+		setForm(prev => ({
+			...prev,
+			[field]: value,
+		}));
+		console.log(form)
+	};
 
 	return (
 		<div>
@@ -35,11 +48,25 @@ export const ApartmentForm = () => {
 
 			<div className='grid md:grid-cols-[2.5fr_1fr] gap-7 items-start'>
 				<div className='flex flex-col gap-5'>
-					<GeneralInfoCard />
-					<PropertyDetailsCard />
+					<GeneralInfoCard
+						name={form.name}
+						number={form.number}
+						floor={form.floor}
+						onNameChange={(v) => updateField("name", v)}
+						onNumberChange={(v) => updateField("number",v)}
+						onFloorChange={(v) => updateField("floor", v)}
+					/>
+					<PropertyDetailsCard
+						area={form.area}
+						roomsCount={form.roomsCount}
+						maxGuests={form.maxGuests}
+						onAreaChange={(v) => updateField("area", v)}
+						onRoomsChange={(v) => updateField("roomsCount", v)}
+						onGuestsChange={(v) => updateField("maxGuests", v)}
+					/>
 				</div>
 				<div>
-					<PricingCard />
+					<PricingCard price={form.price} onChangePrice={(v) => updateField("price", v) } />
 				</div>
 			</div>
 		</div>

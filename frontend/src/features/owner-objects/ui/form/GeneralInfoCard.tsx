@@ -4,9 +4,27 @@ import { InputWrapper } from '@/shared/InputWrapper';
 import { validateApartmentName, validateApartmentNumber } from '../../model/validation';
 import { useField } from '@/shared/hooks/useField';
 
-export const GeneralInfoCard = () => {
+type Props = {
+	name: string,
+	number: string,
+	floor: string,
+
+	onNameChange: (value: string) => void;
+	onNumberChange: (value: string) => void;
+	onFloorChange: (value: string) => void;
+}
+
+export const GeneralInfoCard = ({
+	name,
+	number,
+	floor,
+	onNameChange,
+	onNumberChange,
+	onFloorChange
+}: Props) => {
+
 	const {
-	  field: name,
+	  field: nameField,
 	  onChange: setName,
 	  onFocus: nameFocus,
 	  onBlur: nameBlur,
@@ -14,7 +32,7 @@ export const GeneralInfoCard = () => {
 	} = useField("", validateApartmentName);
 
 	const {
-	  field: number,
+	  field: numberField,
 	  onChange: setNumber,
 	  onFocus: numberFocus,
 	  onBlur: numberBlur,
@@ -22,7 +40,7 @@ export const GeneralInfoCard = () => {
 	} = useField("", validateApartmentNumber);
 
 	const {
-	  field: floor,
+	  field: floorField,
 	  onChange: setFloor,
 	  onFocus: floorFocus,
 	  onBlur: floorBlur,
@@ -32,6 +50,25 @@ export const GeneralInfoCard = () => {
 	const inputClass =
 		"w-full px-5 py-3 bg-transparent text-sm text-slate-800 placeholder:text-slate-400 outline-none rounded-xl bg-white";
 
+	const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		onNameChange(value);
+		setName(value);
+	}
+
+	const handleChangeNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		onNumberChange(value);
+		setNumber(value);
+	}
+
+	const handleChangeFloor = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		if (/^\d*\.?\d*$/.test(value)) {
+			onFloorChange(value);
+			setFloor(value);
+		}
+	}
 
 	return (
 		<ApartmentFormCard
@@ -41,35 +78,36 @@ export const GeneralInfoCard = () => {
 			className="h-auto"
 		>
 			<div className='flex flex-col gap-4'>
-				<InputWrapper label='Название квартиры' field={name}>
+				<InputWrapper label='Название квартиры' field={nameField}>
 					<input
 						type="text"
 						placeholder="Курортная улица, 3к3"
 						className={inputClass}
-						onChange={(e) => setName(e.target.value)}
+						onChange={handleChangeName}
 						onFocus={nameFocus}
 						onBlur={nameBlur}
 					/>
 				</InputWrapper>
 
 				<div className='grid grid-cols-2 gap-5'>
-					<InputWrapper label='Номер квартиры' field={number}>
+					<InputWrapper label='Номер квартиры' field={numberField}>
 						<input
 							type="text"
 							placeholder="10 a"
 							className={inputClass}
-							onChange={(e) => setNumber(e.target.value)}
+							onChange={handleChangeNumber}
 							onFocus={numberFocus}
 							onBlur={numberBlur}
 						/>
 					</InputWrapper>
 
-					<InputWrapper label='Этаж' field={floor}>
+					<InputWrapper label='Этаж' field={floorField}>
 						<input
-							type="number"
+							type="text"
 							placeholder="1"
+							value={floor}
 							className={`${inputClass} no-spinner`}
-							onChange={(e) => setFloor(e.target.value)}
+							onChange={handleChangeFloor}
 							onFocus={floorFocus}
 							onBlur={floorBlur}
 						/>

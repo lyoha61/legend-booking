@@ -6,6 +6,7 @@ import type { Field } from "./hooks/useField";
 
 type InputWrapperProps = {
 	label: string,
+	description?: string,
 	icon?: React.ElementType,
 	field: Field
 	children: React.ReactNode,
@@ -14,6 +15,7 @@ type InputWrapperProps = {
 
 export const InputWrapper = ({
 	label,
+	description,
 	icon: Icon,
 	field,
 	children,
@@ -62,6 +64,9 @@ export const InputWrapper = ({
 					)}
 				</div>
 			</div>
+			{description && (
+				<div className="text-gray-400/90 text-sm mt-0.5">{description}</div>
+			)}
 		</div>
 	)
 }

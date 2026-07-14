@@ -4,28 +4,51 @@ import { LayoutGrid } from "lucide-react";
 import { useField } from "@/shared/hooks/useField";
 import { validateApartmentArea } from "../../model/validation";
 import { Counter } from "@/shared/ui/Counter";
-import { useState } from "react";
+import type React from "react";
 
-export const PropertyDetailsCard = () => {
+type Props = {
+	area: string;
+	roomsCount: number;
+	maxGuests: number;
+
+	onAreaChange: (value: string) => void;
+	onRoomsChange: (value: number) => void;
+	onGuestsChange: (value: number) => void;
+}
+
+export const PropertyDetailsCard = ({
+	area,
+	roomsCount,
+	maxGuests,
+	onAreaChange,
+	onRoomsChange,
+	onGuestsChange,
+}: Props) => {
+
 	const {
-		field: area,
-	  onChange: setArea,
-	  onFocus: areaFocus,
-	  onBlur: areaBlur,
-	  setError: setAreaError
-	} = useField("", validateApartmentArea);
-
-	const [roomsCount, setRoomsCount] = useState(1);
-	const [maxGuests, setMaxGuests] = useState(2);
+		field: areaField,
+		onChange: setArea,
+		onFocus: areaFocus,
+		onBlur: areaBlur,
+		setError: setAreaError
+	} = useField(String(area), validateApartmentArea);
 
 	const inputClass =
 		"w-full px-5 py-3 bg-transparent text-sm text-slate-800 placeholder:text-slate-400 outline-none rounded-xl bg-white";
 
 	const summary = [
-	 	{ label: 'Area', value: area.value ? `${area.value} m²` : '— m²' },
+	 	{ label: 'Area', value: area ? `${area} m²` : '— m²' },
     { label: 'Rooms', value: roomsCount },
     { label: 'Guests', value: `До ${maxGuests}` },
 	]
+
+	const handleChangeArea = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		if (/^\d*\.?\d*$/.test(value)) {
+			onAreaChange(value);
+			setArea(value);
+		}
+	}
 
 	return (
 		<ApartmentFormCard
@@ -34,20 +57,30 @@ export const PropertyDetailsCard = () => {
 			icon={LayoutGrid}
 		>
 			<div className="flex flex-col gap-5">
-				<InputWrapper label="Общая площадь" field={area} suffix="m²" >
+				<InputWrapper label="Общая площадь" field={areaField} suffix="m²" >
 					<input
-						type="number"
+						type="text"
+						inputMode="decimal"
 						placeholder="0"
+						value={area}
 						className={`${inputClass} no-spinner`}
-						onChange={(e) => setArea(e.target.value)}
+						onChange={(e) => handleChangeArea(e)}
 						onFocus={areaFocus}
 						onBlur={areaBlur}
 					/>
 				</InputWrapper>
 
 				<div className="grid grid-cols-2 gap-5">
-					<Counter label="Кол-во комнат" value={roomsCount} onChange={(value) => setRoomsCount(value)} />
-					<Counter label="Макс. гостей" value={maxGuests} onChange={(value) => setMaxGuests(value)} />
+					<Counter
+						label="Кол-во комнат"
+						value={roomsCount}
+						onChange={onRoomsChange}
+					/>
+					<Counter
+						label="Макс. гостей"
+						value={maxGuests}
+						onChange={onGuestsChange}
+					/>
 				</div>
 
 				<div className="flex gap-8 px-3 py-4 bg-[#F5F5FA] rounded-xl border border-[#E8E9F2]">
