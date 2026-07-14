@@ -19,7 +19,7 @@ export const ApartmentFormCard = ({ title, description, icon: Icon, className, c
 						</div>
 					)}
 					<div>
-						<h2 className='text-base'>{title}</h2>
+						<h2 className='text-base leading-5'>{title}</h2>
 						<span className='text-sm text-gray-500'>{description}</span>
 					</div>
 				</div>

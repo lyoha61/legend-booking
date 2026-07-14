@@ -37,9 +37,9 @@ export const PropertyDetailsCard = ({
 		"w-full px-5 py-3 bg-transparent text-sm text-slate-800 placeholder:text-slate-400 outline-none rounded-xl bg-white";
 
 	const summary = [
-	 	{ label: 'Area', value: area ? `${area} m²` : '— m²' },
-    { label: 'Rooms', value: roomsCount },
-    { label: 'Guests', value: `До ${maxGuests}` },
+	 	{ label: 'Площадь', value: area ? `${area} m²` : '— m²' },
+    { label: 'Комнат', value: roomsCount },
+    { label: 'Гостей', value: `До ${maxGuests}` },
 	]
 
 	const handleChangeArea = (e: React.ChangeEvent<HTMLInputElement>) => {

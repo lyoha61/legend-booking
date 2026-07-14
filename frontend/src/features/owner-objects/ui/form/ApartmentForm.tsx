@@ -4,6 +4,9 @@ import { PricingCard } from './PricingCard';
 import { GeneralInfoCard } from './GeneralInfoCard';
 import { PropertyDetailsCard } from './PropertyDetailsCard';
 import { useState } from 'react';
+import { FormActions } from './FormActions';
+import { createApartment } from '../../api/ownerObjectsApi';
+import type { CreateApartmentRequest } from '../../api/types';
 
 export const ApartmentForm = () => {
 	const navigate = useNavigate();
@@ -25,8 +28,18 @@ export const ApartmentForm = () => {
 			...prev,
 			[field]: value,
 		}));
-		console.log(form)
 	};
+
+	const handleCreateApartment = async () => {
+		const data : CreateApartmentRequest = {
+			...form,
+			floor: Number(form.floor),
+			area: Number(form.area),
+			price: Number(form.price),
+		};
+		const res = await createApartment(data);
+		console.log(res);
+	}
 
 	return (
 		<div>
@@ -65,8 +78,9 @@ export const ApartmentForm = () => {
 						onGuestsChange={(v) => updateField("maxGuests", v)}
 					/>
 				</div>
-				<div>
-					<PricingCard price={form.price} onChangePrice={(v) => updateField("price", v) } />
+				<div className='flex flex-col gap-5'>
+					<PricingCard price={form.price} onChangePrice={(v) => updateField("price", v)} />
+					<FormActions onCreateApartment={handleCreateApartment} />
 				</div>
 			</div>
 		</div>
