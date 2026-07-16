@@ -9,6 +9,7 @@ import { DashboardPage } from "@/routes/owner";
 import { OwnerLayout } from "@/layouts/OwnerLayout";
 import { ApartmentsPage } from "@/routes/owner/objects/page";
 import { CreateApartmentPage } from "@/routes/owner/objects/create/page";
+import { RoleProtectedRoute } from "./RoleProtectedRoute";
 
 export const router = createBrowserRouter([
 	{
@@ -47,7 +48,11 @@ export const router = createBrowserRouter([
 	},
 	{
 		path: "/owner",
-		element: <OwnerLayout />,
+		element: (
+			<RoleProtectedRoute role="OWNER">
+				<OwnerLayout />
+			</RoleProtectedRoute>
+		),
 		children: [
 			{ index: true, path: "dashboard", element: <DashboardPage /> },
 			{
