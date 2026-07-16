@@ -79,8 +79,8 @@ public class DataLoader implements CommandLineRunner {
       studio.setAreaSqm(new BigDecimal("35.50"));
       studio.setMaxGuests(2);
       studio.setRoomsCount(1);
-      studio.setCreatedAt(LocalDateTime.now());
-      studio.setUpdatedAt(LocalDateTime.now());
+      studio.setCreatedAt(Instant.now());
+      studio.setUpdatedAt(Instant.now());
       studio.setPricePerNight(new BigDecimal("4500.00"));
 
       Apartment twoRoom = new Apartment();
@@ -91,8 +91,8 @@ public class DataLoader implements CommandLineRunner {
       twoRoom.setAreaSqm(new BigDecimal("58.00"));
       twoRoom.setMaxGuests(4);
       twoRoom.setRoomsCount(2);
-      twoRoom.setCreatedAt(LocalDateTime.now());
-      twoRoom.setUpdatedAt(LocalDateTime.now());
+      twoRoom.setCreatedAt(Instant.now());
+      twoRoom.setUpdatedAt(Instant.now());
       twoRoom.setPricePerNight(new BigDecimal("6200.00"));
 
       Apartment lux = new Apartment();
@@ -103,8 +103,8 @@ public class DataLoader implements CommandLineRunner {
       lux.setAreaSqm(new BigDecimal("95.00"));
       lux.setMaxGuests(6);
       lux.setRoomsCount(3);
-      lux.setCreatedAt(LocalDateTime.now());
-      lux.setUpdatedAt(LocalDateTime.now());
+      lux.setCreatedAt(Instant.now());
+      lux.setUpdatedAt(Instant.now());
       lux.setPricePerNight(new BigDecimal("9500.00"));
 
       apartmentRepository.save(studio);

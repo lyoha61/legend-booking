@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -42,8 +43,15 @@ public class Apartment {
     private BigDecimal pricePerNight;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
+
+    @PrePersist
+    private void onCreate() {
+   		Instant now = Instant.now();
+	    createdAt = now;
+	    updatedAt = now;
+    }
 }
