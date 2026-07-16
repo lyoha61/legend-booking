@@ -10,13 +10,12 @@ export const useAuthInit = () => {
 	useEffect(() => {
 		const init = async () => {
 			try {
-				await refresh();
-
+				await refresh(false);
 				const user = await me();
 				setUser(user);
 			} catch (err) {
 				console.error(err);
-				useAuthStore.getState().logout();
+				useAuthStore.getState().clearAuth();
 			} finally {
 				setLoading(false)
 			}
