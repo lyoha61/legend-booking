@@ -54,7 +54,7 @@ export const router = createBrowserRouter([
 			</RoleProtectedRoute>
 		),
 		children: [
-			{ index: true, path: "dashboard", element: <DashboardPage /> },
+			{ path: "dashboard", element: <DashboardPage /> },
 			{
 				path: "apartments",
 				children: [

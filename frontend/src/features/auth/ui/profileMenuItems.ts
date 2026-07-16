@@ -25,7 +25,7 @@ export const getProfileMenuItems = (user, logout, navigate) => {
     base.splice(1, 0, {
 			label: "Панель управления",
       icon: LayoutDashboard,
-      onClick: () => navigate("/owner"),
+      onClick: () => navigate("/owner/dashboard"),
     });
   }
 
