@@ -35,6 +35,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		HttpServletResponse response,
 		FilterChain filterChain
 	) throws ServletException, IOException {
+
+		if (request.getRequestURI().equals("/api/auth/refresh")) {
+			filterChain.doFilter(request, response);
+			return;
+		}
+
 		try {
 			String authHeader = request.getHeader("Authorization");
 
