@@ -33,4 +33,12 @@ public class PaymentController {
 		PaymentEntity payment = paymentService.pay(id);
 		return ResponseEntity.ok(payment);
 	}
+
+	@PostMapping("/{id}/cancel")
+	public ResponseEntity<?> cancel(
+		@PathVariable UUID id
+	) {
+		PaymentEntity payment = paymentService.cancel(id);
+		return ResponseEntity.ok(payment);
+	}
 }
