@@ -11,9 +11,12 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -86,11 +89,30 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.badRequest().body(response);
 	}
 
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	public ResponseEntity<?> handleTypeMismatch(
+		MethodArgumentTypeMismatchException ex,
+		 HttpServletRequest request
+	) {
+		ErrorResponse response = new ErrorResponse(
+			Instant.now().toString(),
+			400,
+			"Bad Request",
+			"VALIDATION_FAILED",
+			"Invalid parameter",
+			null,
+			request.getRequestURI()
+		);
+
+		return ResponseEntity.badRequest().body(response);
+	}
+
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse> handleAllUncaughtExceptions(
 	   Exception ex,
 	   HttpServletRequest request
 	){
+			log.error("Unexpected error", ex);
 	   	ErrorResponse response = new ErrorResponse(
         Instant.now().toString(),
         500,
