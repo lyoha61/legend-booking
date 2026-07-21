@@ -37,8 +37,6 @@ export const ApartmentsDetails = ({ id }: ApartmentsDetailsProps) => {
 
 	if (!apartment) return;
 
-	console.log(apartment);
-
 	const {
 		name,
 		floor,
@@ -82,7 +80,7 @@ export const ApartmentsDetails = ({ id }: ApartmentsDetailsProps) => {
 					<div className="h-px w-full bg-gray-200 mt-9" />
 				</div>
 				<div className="sticky right-0 w-full">
-					<ApartmentBooking pricePerNight={pricePerNight} />
+					<ApartmentBooking pricePerNight={pricePerNight} apartmentId={apartment.id} />
 				</div>
 			</div>
 		</div>

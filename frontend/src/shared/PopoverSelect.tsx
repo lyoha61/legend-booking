@@ -1,44 +1,52 @@
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover"
 import type { ReactNode } from "react"
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from "lucide-react";
+import { ChevronDownIcon } from "lucide-react";
 
-type PopoverSelectProps = {
-	icon: ReactNode,
+type SelectOption<T = string> = {
+  value: T;
+  label: string;
+};
+
+
+type PopoverSelectProps<T = string> = {
+	icon?: ReactNode,
 	label: string,
-	options: string[],
-	onChange?: (value: string) => void,
+	value?: number | string | null,
+	options: SelectOption<T>[],
+	onChange?: (value: T) => void,
 	contentProps?: React.ComponentProps<typeof PopoverContent>;
 }
 
-export const PopoverSelect = ({
+export const PopoverSelect = <T extends string | number> ({
 	icon,
 	label,
+	value,
 	options,
 	onChange,
 	contentProps
-}: PopoverSelectProps) => {
+}: PopoverSelectProps<T>) => {
+
+	const selected = options.find(option => option.value === value);
 
 	return (
 		<Popover>
 			<PopoverTrigger className="w-full" asChild>
 				<button className="flex w-full justify-start gap-2 text-sm text-gray-500 items-center">
 					{icon ?? " "}
-					<span className="text-gray-900">{label}</span>
+					<span className={` ${selected?.label ? "text-gray-900" : "text-muted-foreground"}`}>
+						{selected?.label ?? label}
+					</span>
 					<ChevronDownIcon className="size-4" />
 				</button>
 			</PopoverTrigger>
 			<PopoverContent className="flex flex-col bg-white shadow-sm rounded-lg"  {...contentProps}>
 				{options.map((option) => (
 					<button
-						key={option}
-						onClick={() => onChange?.(option)}
+						key={option.value}
+						onClick={() => onChange?.(option.value)}
 						className="cursor-pointer items-center w-full px-4 py-2 text-start text-sm text-gray-700 hover:bg-gray-100 focus-visible:outline-none focus-visible:bg-gray-100 transition-colors"
 					>
-						{option}
+						{option.label}
 					</button>
 				))}
 			</PopoverContent>

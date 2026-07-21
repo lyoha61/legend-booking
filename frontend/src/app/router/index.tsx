@@ -10,6 +10,7 @@ import { OwnerLayout } from "@/layouts/OwnerLayout";
 import { ApartmentsPage } from "@/routes/owner/objects/page";
 import { CreateApartmentPage } from "@/routes/owner/objects/create/page";
 import { RoleProtectedRoute } from "./RoleProtectedRoute";
+import { CheckoutPage } from "@/routes/checkout/page";
 
 export const router = createBrowserRouter([
 	{
@@ -63,5 +64,11 @@ export const router = createBrowserRouter([
 				]
 			}
 		]
+	},
+	{
+		path: "/checkout",
+		element: (
+			<CheckoutPage />
+		)
 	}
 ]);

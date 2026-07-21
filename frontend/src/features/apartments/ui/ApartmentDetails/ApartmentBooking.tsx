@@ -1,17 +1,19 @@
 import { useSearchStore } from "@/shared/store/useSearchStore";
 import { formatDate } from "@/utils/date";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { differenceInDays } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 type ApartmentBookingProps = {
 	pricePerNight: number;
+	apartmentId: string;
 }
 
-export const ApartmentBooking = ({ pricePerNight }: ApartmentBookingProps) => {
+export const ApartmentBooking = ({ pricePerNight, apartmentId }: ApartmentBookingProps) => {
 	const [price, setPrice] = useState(pricePerNight);
 	const checkInDate = useSearchStore((state) => state.checkInDate);
 	const checkOutDate = useSearchStore((state) => state.checkOutDate);
-	console.log(price)
+	const navigate = useNavigate();
 	const calculateNights = (checkIn: string | null, checkOut: string | null): number => {
 	  if (!checkIn || !checkOut) return 0;
 
@@ -80,7 +82,12 @@ export const ApartmentBooking = ({ pricePerNight }: ApartmentBookingProps) => {
 				<span>₽{ totalPrice }</span>
 			</div>
 
-			<button className="flex justify-center py-3 items-center bg-teal-700 text-white w-full rounded-lg shadow-lg font-semibold cursor-pointer">
+			<button 
+				className="flex justify-center py-3 items-center bg-teal-700 text-white w-full rounded-lg shadow-lg font-semibold cursor-pointer"
+				onClick={() => navigate(
+					`/checkout?apartmentId=${apartmentId}&checkIn=${checkInDate}&checkOut=${checkOutDate}`
+				)}
+				>
 				Забронировать
 			</button>
 
