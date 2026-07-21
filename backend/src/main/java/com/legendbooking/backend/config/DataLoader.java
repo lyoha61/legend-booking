@@ -53,7 +53,7 @@ public class DataLoader implements CommandLineRunner {
       manager.setLastName("Менеджер");
       manager.setEmail("manager@legend.ru");
       manager.setPhone("+79990003333");
-      manager.setPassword("password123");
+      manager.setPassword(passwordEncoder.encode("12345678"));
       manager.setCreatedAt(Instant.now());
       manager.setUpdatedAt(Instant.now());
 
