@@ -13,8 +13,8 @@ CREATE TABLE bookings (
 	check_out DATE NOT NULL,
 	guests INT NOT NULL CHECK (guests > 0),
 	status booking_status NOT NULL,
-	created_at TIMESTAMPTZ DEFAULT NOW(),
-	updated_at TIMESTAMPTZ DEFAULT NOW(),
+	created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 
 	CHECK (check_out > check_in)
 );
